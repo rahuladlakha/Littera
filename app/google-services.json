@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "819501200298",
+    "project_id": "littera-ced4b",
+    "storage_bucket": "littera-ced4b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819501200298:android:4ceecd6183e63b8ec9f1d3",
+        "android_client_info": {
+          "package_name": "com.rahul.littera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "819501200298-iluiitkjeg3b9ti4j8o1q1d4p67aa2cr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzTiP70zhVoIBFRxyLhL3e9oA_yBpIL7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "819501200298-iluiitkjeg3b9ti4j8o1q1d4p67aa2cr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
