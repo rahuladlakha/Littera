@@ -11,21 +11,18 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Scroller;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
-public class MainActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
     View signInButton = null;
     String termsString = " k\njs\nhf j\nsj\nh j\nkhj\nkhd\nk fj\njk\nhjk a\nhh\naj\nkh k\n akjh\njk jk\nhahj j\nkh k\n ka\nl H\nere \n are\n the\n ter\nms\n \nand \ncond\nti\nons\n for\n Littera\n app\n\n shk \n s; g\n sgi\nuiu \n hsgu \n kjl g\n hsjhg \n klsh g\n lshg j\n lshg ";
 
@@ -33,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if ( account != null ){
+            getUserInfo(account);
+        }
 
         getSupportActionBar().hide();
 
@@ -48,10 +50,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if ( account != null ){
-            getUserInfo(account);
-        }
+
     }
 
     public void checkClicked(View view){
@@ -123,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("user Id", personId);
         intent.putExtra("photo url", personPhoto);
         startActivity(intent);
-
+        finish();
     }
 
     public void googleSignIn(View view){
@@ -133,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 .requestIdToken("819501200298-iluiitkjeg3b9ti4j8o1q1d4p67aa2cr.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(MainActivity.this, gso);
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(SignUpActivity.this, gso);
 
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent,1);
