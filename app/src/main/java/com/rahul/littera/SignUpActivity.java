@@ -36,7 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
             getUserInfo(account);
         }
 
-        getSupportActionBar().hide();
+        if ( getSupportActionBar() != null ) getSupportActionBar().hide();
 
 
        signInButton = findViewById(R.id.signInButton);
