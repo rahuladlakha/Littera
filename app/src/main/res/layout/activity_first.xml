@@ -6,4 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".FirstActivity">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/botomNavigationView"
+            android:layout_width="match_parent"
+            app:itemTextColor="@color/purple_500"
+            android:layout_height="match_parent"
+            app:menu="@menu/bottom_navigation_menu"/>
+
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Littera" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.Littera" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand color.
         Earlier theme was Theme.MaterialComponents.DayNight.DarkActionBar for Night mode and also changed colorPrimary to purple_500 from purple_200
         Further changed colorPrimaryVariant - basically it is colour of the status bar       -->
