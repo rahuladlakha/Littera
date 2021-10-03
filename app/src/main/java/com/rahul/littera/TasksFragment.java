@@ -2,6 +2,7 @@ package com.rahul.littera;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 
@@ -29,8 +30,8 @@ import java.util.ArrayList;
  */
 public class TasksFragment extends Fragment implements View.OnClickListener {
     static int currTag = 0;
-   ArrayList<String> pendingTasks ;
-   ListView tasksListview;
+    static ArrayList<String> pendingTasks ;
+    static ListView tasksListview;
     public TasksFragment() {
         // Required empty public constructor
     }

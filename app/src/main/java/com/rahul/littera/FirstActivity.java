@@ -78,6 +78,13 @@ public class FirstActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
+    public void newTaskNote(View view){
+        if (view.getId() == R.id.newTaskFAB){
+            Intent intent = new Intent(this, AddNoteTaskActivity.class);
+            intent.putExtra("initiated from","tasksFragment");
+            startActivity(intent);
+        }
+    }
 
 
     private void setFragment(Fragment fragment){
