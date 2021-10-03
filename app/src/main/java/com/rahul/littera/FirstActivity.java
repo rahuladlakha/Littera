@@ -55,7 +55,7 @@ public class FirstActivity extends AppCompatActivity {
         btm.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-               FirstActivity.this.startAnimations();
+              FirstActivity.this.startAnimations();
                int id = item.getItemId();
                if (id == R.id.tasksItem){
                    setFragment(new TasksFragment());
@@ -75,15 +75,18 @@ public class FirstActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater mi = getMenuInflater();
         mi.inflate(R.menu.main_menu,menu);
+
         return super.onCreateOptionsMenu(menu);
     }
+
+
     private void setFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainerView, fragment)
                 .commit();
     }
 
-    private void startAnimations(){
+    public void startAnimations() {
         View v = findViewById(R.id.settingsItem);
         v.animate().rotationBy(9).setDuration(30).withEndAction(new Runnable() {
             @Override
@@ -92,5 +95,6 @@ public class FirstActivity extends AppCompatActivity {
             }
         });
     }
+
 
 }
