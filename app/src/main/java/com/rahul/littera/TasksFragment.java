@@ -66,11 +66,13 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         RadioButton rb = ((RadioButton) view );
-      if ( rb.isChecked() ){
+      if ( rb != null && rb.isChecked() ){ rb.setButtonDrawable(R.drawable.ic_baseline_check_circle_24);
           View v = tasksListview.getChildAt(Integer.valueOf(rb.getTag().toString()));
-          v.findViewById(R.id.taskDescription).setVisibility(View.GONE);
-          ((TextView )v.findViewById(R.id.taskTextView)).setTextColor(R.color.grey);
-          ((TextView )v.findViewById(R.id.taskTextView)).setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+          if (v != null && v.findViewById(R.id.taskDescription) != null ) {
+              v.findViewById(R.id.taskDescription).setVisibility(View.INVISIBLE);
+              ((TextView) v.findViewById(R.id.taskTextView)).setTextColor(R.color.grey);
+              ((TextView) v.findViewById(R.id.taskTextView)).setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+          }
       }
     }
 

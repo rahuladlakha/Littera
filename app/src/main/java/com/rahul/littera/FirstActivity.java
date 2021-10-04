@@ -79,11 +79,21 @@ public class FirstActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
     public void newTaskNote(View view){
-        if (view.getId() == R.id.newTaskFAB){
-            Intent intent = new Intent(this, AddNoteTaskActivity.class);
-            intent.putExtra("initiated from","tasksFragment");
-            startActivity(intent);
-        }
+        view.animate().rotationBy(90).setDuration(1000).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                if (view.getId() == R.id.newTaskFAB){
+                    Intent intent = new Intent(FirstActivity.this, AddNoteTaskActivity.class);
+                    intent.putExtra("initiated from","tasksFragment");
+                    startActivity(intent);
+                } else if (view.getId() == R.id.newNoteFAB){
+                    Intent intent = new Intent(FirstActivity.this, AddNoteTaskActivity.class);
+                    intent.putExtra("initiated from","notesFragment");
+                    startActivity(intent);
+                }
+            }
+        });
+
     }
 
 

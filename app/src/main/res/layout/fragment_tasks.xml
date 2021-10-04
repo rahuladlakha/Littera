@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:foregroundTint="#8BC34A"
     tools:context=".TasksFragment">
 
     <ListView
@@ -20,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
-        android:background="#FFEB3B"
         android:onClick="newTaskNote"
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
