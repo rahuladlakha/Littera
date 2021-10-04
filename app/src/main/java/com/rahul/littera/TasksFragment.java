@@ -2,24 +2,24 @@ package com.rahul.littera;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.common.internal.Objects;
 
 import java.util.ArrayList;
 
@@ -30,8 +30,10 @@ import java.util.ArrayList;
  */
 public class TasksFragment extends Fragment implements View.OnClickListener {
     static int currTag = 0;
-    static ArrayList<String> pendingTasks ;
-    static ListView tasksListview;
+    private static ArrayList<StringPair> pendingTasks ;
+    private static ListView tasksListview;
+    private static MyAdapter myAdapter ;
+
     public TasksFragment() {
         // Required empty public constructor
     }
@@ -52,13 +54,11 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        pendingTasks = new ArrayList<String>();
-        pendingTasks.add("Thankyou George lhaklh i iawifyiu ihsjakhf kjlh khajf kla fkla  \n ajfkjal \nlahf ");
-        pendingTasks.add("Im fine");
+        pendingTasks = new ArrayList<StringPair>();
         tasksListview = (ListView) getView().findViewById(R.id.tasksListView);
 
-        MyAdapter adapter = new MyAdapter(getActivity(),pendingTasks);
-        tasksListview.setAdapter(adapter);
+        myAdapter = new MyAdapter(getActivity(),pendingTasks);
+        tasksListview.setAdapter(myAdapter);
 
     }
 
@@ -66,7 +66,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         RadioButton rb = ((RadioButton) view );
-      if ( rb != null && rb.isChecked() ){ rb.setButtonDrawable(R.drawable.ic_baseline_check_circle_24);
+      if ( rb != null && rb.isChecked() ){ rb.setButtonDrawable(R.drawable.ic_radio_button_checked);
           View v = tasksListview.getChildAt(Integer.valueOf(rb.getTag().toString()));
           if (v != null && v.findViewById(R.id.taskDescription) != null ) {
               v.findViewById(R.id.taskDescription).setVisibility(View.INVISIBLE);
@@ -75,11 +75,15 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
           }
       }
     }
+    public static void newTask(StringPair sp){
+        pendingTasks.add(sp);
+        myAdapter.notifyDataSetChanged();
+    }
 
     class MyAdapter extends ArrayAdapter<String>{
         Context context;
-        ArrayList<String> arr;
-        public MyAdapter(Context c, ArrayList<String> arr){
+        ArrayList<StringPair> arr;
+        public MyAdapter(Context c, ArrayList<StringPair> arr){
             super(c,R.layout.tasksview,R.id.taskTextView);
             this.context = c;
             this.arr = arr;
@@ -96,8 +100,10 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
            LayoutInflater layoutInflater = (LayoutInflater) context.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
            View v = layoutInflater.inflate(R.layout.tasksview,parent,false);
            TextView txt = (TextView) v.findViewById(R.id.taskTextView);
+           TextView des = (TextView ) v.findViewById(R.id.taskDescription);
             RadioButton rb = (RadioButton) v.findViewById(R.id.radioButton);
-           txt.setText(arr.get(position));
+           txt.setText(arr.get(position).s1);
+           des.setText(arr.get(position).s2);
            rb.setTag(currTag);
            rb.setOnClickListener(TasksFragment.this);
            v.setTag(currTag);

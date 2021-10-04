@@ -26,8 +26,9 @@ import java.util.ArrayList;
  */
 public class NotesFragment extends Fragment {
    // static int currTag = 0;
-    static ArrayList<String> notes ;
-    static ListView notesListview;
+   private static ArrayList<StringPair> notes ;
+   private static ListView notesListview;
+   private static  MyAdapter myAdapter;
     public NotesFragment() {
         // Required empty public constructor
     }
@@ -50,20 +51,22 @@ public class NotesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        notes = new ArrayList<String>();
-        notes.add("Thankyou George lhaklh i iawifyiu ihsjakhf kjlh khajf kla fkla  \n ajfkjal \nlahf ");
-        notes.add("Im fine");
+        notes = new ArrayList<StringPair>();
         notesListview = (ListView) getView().findViewById(R.id.notesListView);
 
-        MyAdapter adapter = new MyAdapter(getActivity(),notes);
-        notesListview.setAdapter(adapter);
+        myAdapter = new MyAdapter(getActivity(),notes);
+        notesListview.setAdapter(myAdapter);
 
+    }
+    public static void newNote(StringPair sp){
+        notes.add(sp);
+        myAdapter.notifyDataSetChanged();
     }
 
     class MyAdapter extends ArrayAdapter<String> {
         Context context;
-        ArrayList<String> arr;
-        public MyAdapter(Context c, ArrayList<String> arr){
+        ArrayList<StringPair> arr;
+        public MyAdapter(Context c, ArrayList<StringPair> arr){
             super(c,R.layout.tasksview,R.id.taskTextView);
             this.context = c;
             this.arr = arr;
@@ -80,7 +83,9 @@ public class NotesFragment extends Fragment {
             LayoutInflater layoutInflater = (LayoutInflater) context.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = layoutInflater.inflate(R.layout.notesview,parent,false);
             TextView txt = (TextView) v.findViewById(R.id.noteTextView);
-            txt.setText(arr.get(position));
+            TextView des = (TextView) v.findViewById(R.id.noteDescription);
+            txt.setText(arr.get(position).s1);
+            des.setText(arr.get(position).s2);
           //  v.setTag(currTag);
           //  currTag++;
             return v;
