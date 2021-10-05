@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Scroller;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -24,7 +25,7 @@ import com.google.android.gms.tasks.Task;
 
 public class SignUpActivity extends AppCompatActivity {
     View signInButton = null;
-    String termsString = " k\njs\nhf j\nsj\nh j\nkhj\nkhd\nk fj\njk\nhjk a\nhh\naj\nkh k\n akjh\njk jk\nhahj j\nkh k\n ka\nl H\nere \n are\n the\n ter\nms\n \nand \ncond\nti\nons\n for\n Littera\n app\n\n shk \n s; g\n sgi\nuiu \n hsgu \n kjl g\n hsjhg \n klsh g\n lshg j\n lshg ";
+    String termsString = " khjkdsh kjhg hjklhsd gshgjkl shgjklhsjkghsjklghls gs klghsdgjdslg shdkldsjklds hkjlsd kjhjgsh h jkdh gjdkslh glkds j skg j kd gdsgjkhd gfd gkdgdgk dgkld    gf jkd fhshgjkdjk sdhjk dkfd s kdg\njs\nhf j\nsj\nh j\nkhj\nkhd\nk fj\njk\nhjk a\nhh\naj\nkh k\nakjh\njk jk\nhahj j\nkh k\n ka\nl H\nere \n are\n the\n ter\nms\n \nand \ncond\nti\nons\n for\n Littera\n app\n\n shk \n s; g\n sgi\nuiu \n hsgu \n kjl g\n hsjhg \n klsh g\n lshg j\n lshg ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
            try {
                TextView terms = new TextView(this);
                terms.setText(termsString);
+               terms.setPadding(40,20,40,0);
                terms.setMaxLines(20);
                terms.setTextSize(20);
                terms.setMovementMethod(new ScrollingMovementMethod());
@@ -114,7 +116,6 @@ public class SignUpActivity extends AppCompatActivity {
         String personEmail = acct.getEmail();
         String personId = acct.getId();
         Uri personPhoto = acct.getPhotoUrl();
-      //  Toast.makeText(this, personId +" "+ personName + " " + personEmail, Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(this, FirstActivity.class);
         intent.putExtra("person name", personName);

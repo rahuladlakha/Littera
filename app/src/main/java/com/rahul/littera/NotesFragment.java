@@ -25,6 +25,12 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class NotesFragment extends Fragment {
+    private static NotesFragment instance;
+    public static NotesFragment getInstance(){
+        if (instance == null) instance = new NotesFragment();
+        return instance;
+    }
+
    // static int currTag = 0;
    private static ArrayList<StringPair> notes ;
    private static ListView notesListview;
@@ -51,7 +57,7 @@ public class NotesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        notes = new ArrayList<StringPair>();
+        if ( notes == null ) notes = new ArrayList<StringPair>();
         notesListview = (ListView) getView().findViewById(R.id.notesListView);
 
         myAdapter = new MyAdapter(getActivity(),notes);

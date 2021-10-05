@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.common.internal.Objects;
 
 import java.util.ArrayList;
 
@@ -33,6 +29,11 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
     private static ArrayList<StringPair> pendingTasks ;
     private static ListView tasksListview;
     private static MyAdapter myAdapter ;
+    private static TasksFragment instance = null;
+    public static TasksFragment getInstance(){
+        if (instance == null) instance = new TasksFragment();
+        return instance;
+    }
 
     public TasksFragment() {
         // Required empty public constructor
@@ -54,7 +55,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        pendingTasks = new ArrayList<StringPair>();
+      if (pendingTasks == null)  pendingTasks = new ArrayList<StringPair>();
         tasksListview = (ListView) getView().findViewById(R.id.tasksListView);
 
         myAdapter = new MyAdapter(getActivity(),pendingTasks);

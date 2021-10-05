@@ -14,6 +14,11 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ProductivityFragment extends Fragment {
+    private static ProductivityFragment instance;
+    public static ProductivityFragment getInstance(){
+        if (instance == null) instance = new ProductivityFragment();
+        return instance;
+    }
 
     public ProductivityFragment() {
         // Required empty public constructor

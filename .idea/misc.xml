@@ -4,7 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/drawable/edittext_layout.xml" value="0.1" />
+        <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/drawable/ic_logout.xml" value="0.1" />
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/drawable/ic_radioButtonChecked.xml" value="0.1" />
+        <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/drawable/ic_radio_button_unchecked.xml" value="0.1" />
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/drawable/ic_sync.xml" value="0.2203125" />
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/layout/activity_add_note_task.xml" value="0.18840579710144928" />
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/layout/activity_first.xml" value="0.1" />
@@ -14,7 +16,7 @@
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/layout/fragment_productivity.xml" value="0.12817028985507245" />
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/layout/fragment_profile.xml" value="0.12817028985507245" />
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/layout/fragment_tasks.xml" value="0.12817028985507245" />
-        <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/layout/notesview.xml" value="0.1" />
+        <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/layout/notesview.xml" value="0.25" />
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/layout/tasksview.xml" value="0.15" />
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/menu/main_menu.xml" value="0.20416666666666666" />
       </map>
