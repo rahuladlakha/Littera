@@ -4,9 +4,9 @@
         android:title="Tasks"
         android:icon="@drawable/ic_tasks"/>
 
-    <item android:id="@+id/productivityItem"
-        android:title="Productivity"
-        android:icon="@drawable/ic_productivity"/>
+    <item android:id="@+id/flashcardsItem"
+        android:title="Flashcards"
+        android:icon="@drawable/ic_flashcards"/>
 
     <item android:id="@+id/notesItem"
         android:title="Notes"

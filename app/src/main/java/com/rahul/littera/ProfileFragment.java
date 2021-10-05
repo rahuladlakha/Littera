@@ -34,7 +34,7 @@ import java.util.ArrayList;
 public class ProfileFragment extends Fragment implements View.OnClickListener {
     private static ProfileFragment instance;
     public static ImageView userImageView;
-    private ListView optionsListView ;
+    private static TextView nameTextView, emailTextView;
     public static ProfileFragment getInstance(){
         if (instance == null) instance = new ProfileFragment();
         return instance;
@@ -59,6 +59,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        nameTextView = (TextView) getActivity().findViewById(R.id.nameTextView);
+        emailTextView = (TextView) getActivity().findViewById(R.id.emailTextView);
+        String[] info = FirstActivity.getUserInfo();
+        nameTextView.setText("  "+ info[0]);
+        emailTextView.setText("  " + info[1]);
         userImageView = (ImageView) getActivity().findViewById(R.id.profileImageView);
         FirstActivity.getUserImage(userImageView);
         getActivity().findViewById(R.id.logoutOptionTextView).setOnClickListener(this);

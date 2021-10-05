@@ -5,45 +5,34 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.animation.Animator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
 import android.widget.ImageView;
-import android.widget.Toast;
-import android.widget.ViewAnimator;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class FirstActivity extends AppCompatActivity {
-   private static Bitmap userImageBitmap;
+    private String username, useremail, userId;
+    private static Bitmap userImageBitmap;
    private static URL imageUrl;
-   private static GoogleSignInAccount currUser;
+   private static FirebaseUser currUser;
    private static FirstActivity instance;
    public static void signout(){
        FirebaseAuth.getInstance().signOut();
-               instance.getSignInInfo();
-          Toast.makeText(instance, "Successfully signed out !", Toast.LENGTH_SHORT).show();
+       instance.getSignInInfo();
    }
 
     public static void getUserImage(ImageView imgView) {
@@ -55,6 +44,9 @@ public class FirstActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+    public static String[] getUserInfo(){
+       return new String[]{instance.username,instance.useremail, instance.userId};
     }
 
 
@@ -81,23 +73,35 @@ public class FirstActivity extends AppCompatActivity {
                     setFragment(TasksFragment.getInstance());
                 } else if (id == R.id.notesItem ){
                     setFragment( NotesFragment.getInstance());
-                } else if (id == R.id.productivityItem){
-                    setFragment(ProductivityFragment.getInstance());
+                } else if (id == R.id.flashcardsItem){
+                    setFragment(FlashcardsFragment.getInstance());
                 } else if (id == R.id.profileItem){
                     setFragment( ProfileFragment.getInstance());
                 }
                 return true;
             }
         });
+        /*
+        FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() == null){
+
+                   // Toast.makeText(FirstActivity.this , "No user logged in", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        */
     }
 
     private void getSignInInfo(){
-        currUser = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+      currUser = FirebaseAuth.getInstance().getCurrentUser();
+
         if ( currUser != null ){
-            Toast.makeText(this, "Curr user not null ", Toast.LENGTH_SHORT).show();
-            String personName = currUser.getDisplayName();
-            String personEmail = currUser.getEmail();
-            String personId = currUser.getId();
+            username = currUser.getDisplayName();
+            useremail = currUser.getEmail();
+            userId = currUser.getUid();
+            //Toast.makeText(this, personId + personEmail + personName , Toast.LENGTH_SHORT).show();
            try{ if (imageUrl == null ) imageUrl = new URL(currUser.getPhotoUrl().toString());}
            catch (Exception e){e.printStackTrace(); }
            // Toast.ma= (URL)keText(this, personId +" "+ personName + " " + personEmail, Toast.LENGTH_LONG).show();

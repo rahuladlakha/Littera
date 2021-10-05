@@ -10,17 +10,17 @@ import android.view.ViewGroup;
 
 /*
  * A simple {@link Fragment} subclass.
- * Use the {@link ProductivityFragment#newInstance} factory method to
+ * Use the {@link FlashcardsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProductivityFragment extends Fragment {
-    private static ProductivityFragment instance;
-    public static ProductivityFragment getInstance(){
-        if (instance == null) instance = new ProductivityFragment();
+public class FlashcardsFragment extends Fragment {
+    private static FlashcardsFragment instance;
+    public static FlashcardsFragment getInstance(){
+        if (instance == null) instance = new FlashcardsFragment();
         return instance;
     }
 
-    public ProductivityFragment() {
+    public FlashcardsFragment() {
         // Required empty public constructor
     }
 
@@ -34,6 +34,6 @@ public class ProductivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_productivity, container, false);
+        return inflater.inflate(R.layout.fragment_flashcards, container, false);
     }
 }
