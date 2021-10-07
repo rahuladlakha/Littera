@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -60,6 +63,19 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
 
         myAdapter = new MyAdapter(getActivity(),pendingTasks);
         tasksListview.setAdapter(myAdapter);
+      /*  FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.newTaskFAB);
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                view.animate().translationXBy(500).rotation(360).setDuration(2000);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.animate().translationXBy(-500).rotation(-360).setDuration(2000);
+                    }
+                }, 5000); return true;
+            }
+        }); */
 
     }
 

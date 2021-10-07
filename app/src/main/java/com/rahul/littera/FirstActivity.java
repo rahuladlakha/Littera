@@ -35,15 +35,20 @@ public class FirstActivity extends AppCompatActivity {
        instance.getSignInInfo();
    }
 
-    public static void getUserImage(ImageView imgView) {
-        if (imageUrl == null) return;
+    public static Bitmap getUserImage(ImageView imgView) {
+        if (imageUrl == null) return null;
+        Bitmap bitmap = null;
         GetImageTask task = new GetImageTask();
-        try { userImageBitmap = task.execute(imageUrl).get();
-             imgView.setImageBitmap(userImageBitmap);
-        } catch (Exception e){
-            e.printStackTrace();
+        try { //bitmap = task.execute(imageUrl).get();
+            URL url = imageUrl;
+            HttpURLConnection http = null;
+                http = (HttpURLConnection) url.openConnection();
+                InputStream in = http.getInputStream();
+                bitmap = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                e.printStackTrace();
         }
-
+        return  bitmap;
     }
     public static String[] getUserInfo(){
        return new String[]{instance.username,instance.useremail, instance.userId};
@@ -133,6 +138,10 @@ public class FirstActivity extends AppCompatActivity {
                     Intent intent = new Intent(FirstActivity.this, AddNoteTaskActivity.class);
                     intent.putExtra("initiated from","notesFragment");
                     startActivity(intent);
+                } else if (view.getId() == R.id.newFlashcardFAB){
+                    Intent intent = new Intent(FirstActivity.this, NewFlashcardActivity.class);
+                    intent.putExtra("initiated from","flashcardsFragment");
+                    startActivity(intent);
                 }
             }
         });
@@ -159,16 +168,7 @@ public class FirstActivity extends AppCompatActivity {
 
         @Override
         protected Bitmap doInBackground(URL... urls) {
-            URL url = urls[0];
-            HttpURLConnection http = null;
-            try {
-                http = (HttpURLConnection) url.openConnection();
-                InputStream in = http.getInputStream();
-                Bitmap image = BitmapFactory.decodeStream(in);
-                return image;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
             return null;
         }
 

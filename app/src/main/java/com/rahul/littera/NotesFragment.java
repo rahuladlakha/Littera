@@ -73,7 +73,7 @@ public class NotesFragment extends Fragment {
         Context context;
         ArrayList<StringPair> arr;
         public MyAdapter(Context c, ArrayList<StringPair> arr){
-            super(c,R.layout.tasksview,R.id.taskTextView);
+            super(c,R.layout.notesview,R.id.noteTextView);
             this.context = c;
             this.arr = arr;
         }

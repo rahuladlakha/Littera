@@ -65,7 +65,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         nameTextView.setText("  "+ info[0]);
         emailTextView.setText("  " + info[1]);
         userImageView = (ImageView) getActivity().findViewById(R.id.profileImageView);
-        FirstActivity.getUserImage(userImageView);
+       GetImageTask task = new GetImageTask();
+       task.execute(userImageView);
         getActivity().findViewById(R.id.logoutOptionTextView).setOnClickListener(this);
     }
 
@@ -76,6 +77,19 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         } else if (id == R.id.logoutOptionTextView){
             FirstActivity.signout();
+        }
+    }
+    class GetImageTask extends AsyncTask<ImageView,Void,Bitmap>{
+        @Override
+        protected Bitmap doInBackground(ImageView... imageViews) {
+            return FirstActivity.getUserImage(imageViews[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap image) {
+            if (image != null)
+            userImageView.setImageBitmap(image);
+            super.onPostExecute(image);
         }
     }
 }
