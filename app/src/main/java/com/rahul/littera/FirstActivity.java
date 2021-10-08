@@ -5,11 +5,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +29,7 @@ import java.net.URL;
 
 public class FirstActivity extends AppCompatActivity {
     private String username, useremail, userId;
+    public static SharedPreferences sharedPreferences;
     private static Bitmap userImageBitmap;
    private static URL imageUrl;
    private static FirebaseUser currUser;
@@ -60,7 +64,9 @@ public class FirstActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
         instance = this;
-
+        sharedPreferences = this.getSharedPreferences("com.rahul.littera", Context.MODE_PRIVATE);
+         boolean result = DataManager.getInstance().retrieveSaved(sharedPreferences);
+         Log.i("Retrieval result", Boolean.toString(result));
         ActionBar actionBar = getSupportActionBar();
                 if (actionBar != null ){
                     actionBar.setIcon(R.drawable.ic_notes);

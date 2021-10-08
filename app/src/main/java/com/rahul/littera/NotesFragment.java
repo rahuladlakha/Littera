@@ -56,16 +56,17 @@ public class NotesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        if ( DataManager.notes == null ) DataManager.notes = new ArrayList<StringPair>();
+        if ( Data.getInstance().notes == null ) Data.getInstance().notes = new ArrayList<StringPair>();
         notesListview = (ListView) getView().findViewById(R.id.notesListView);
 
-        myAdapter = new MyAdapter(getActivity(),DataManager.notes);
+        myAdapter = new MyAdapter(getActivity(),Data.getInstance().notes);
         notesListview.setAdapter(myAdapter);
 
     }
     public static void newNote(StringPair sp){
-        DataManager.notes.add(sp);
+        Data.getInstance().notes.add(sp);
         myAdapter.notifyDataSetChanged();
+        DataManager.getInstance().save(FirstActivity.sharedPreferences);
     }
 
     class MyAdapter extends ArrayAdapter<String> {

@@ -22,11 +22,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-/*
- * A simple {@link Fragment} subclass.
- * Use the {@link TasksFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TasksFragment extends Fragment implements View.OnClickListener {
     static int currTag = 0;
     private static ListView tasksListview;
@@ -57,10 +52,10 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-      if (DataManager.pendingTasks == null)  DataManager.pendingTasks = new ArrayList<StringPair>();
+      if (Data.getInstance().pendingTasks == null)  Data.getInstance().pendingTasks = new ArrayList<StringPair>();
         tasksListview = (ListView) getView().findViewById(R.id.tasksListView);
 
-        myAdapter = new MyAdapter(getActivity(),DataManager.pendingTasks);
+        myAdapter = new MyAdapter(getActivity(),Data.getInstance().pendingTasks);
         tasksListview.setAdapter(myAdapter);
       FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.newTaskFAB);
         fab.setOnLongClickListener(new View.OnLongClickListener() {
@@ -92,8 +87,9 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
       }
     }
     public static void newTask(StringPair sp){
-        DataManager.pendingTasks.add(sp);
+        Data.getInstance().pendingTasks.add(sp);
         myAdapter.notifyDataSetChanged();
+        DataManager.getInstance().save(FirstActivity.sharedPreferences);
     }
 
     class MyAdapter extends ArrayAdapter<String>{
