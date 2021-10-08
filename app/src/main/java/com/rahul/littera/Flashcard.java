@@ -16,6 +16,7 @@ public class Flashcard implements Comparable<Flashcard>, Serializable {
         this.front = front; this.back = back; this.nextDate = new Date(); this.cardgrp = cdgp;
         this.fab1 = 0; fab2 = 1;
         Data.getInstance().flashcards.add(this);
+        DataManager.getInstance().save(FirstActivity.sharedPreferences);
     }
     public static ArrayList<Flashcard> getPendingCards(){
         ArrayList<Flashcard> cards = new ArrayList<>();
