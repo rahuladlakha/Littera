@@ -32,7 +32,6 @@ public class NotesFragment extends Fragment {
     }
 
    // static int currTag = 0;
-   private static ArrayList<StringPair> notes ;
    private static ListView notesListview;
    private static  MyAdapter myAdapter;
     public NotesFragment() {
@@ -57,15 +56,15 @@ public class NotesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        if ( notes == null ) notes = new ArrayList<StringPair>();
+        if ( DataManager.notes == null ) DataManager.notes = new ArrayList<StringPair>();
         notesListview = (ListView) getView().findViewById(R.id.notesListView);
 
-        myAdapter = new MyAdapter(getActivity(),notes);
+        myAdapter = new MyAdapter(getActivity(),DataManager.notes);
         notesListview.setAdapter(myAdapter);
 
     }
     public static void newNote(StringPair sp){
-        notes.add(sp);
+        DataManager.notes.add(sp);
         myAdapter.notifyDataSetChanged();
     }
 

@@ -29,7 +29,6 @@ import java.util.ArrayList;
  */
 public class TasksFragment extends Fragment implements View.OnClickListener {
     static int currTag = 0;
-    private static ArrayList<StringPair> pendingTasks ;
     private static ListView tasksListview;
     private static MyAdapter myAdapter ;
     private static TasksFragment instance = null;
@@ -58,12 +57,12 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-      if (pendingTasks == null)  pendingTasks = new ArrayList<StringPair>();
+      if (DataManager.pendingTasks == null)  DataManager.pendingTasks = new ArrayList<StringPair>();
         tasksListview = (ListView) getView().findViewById(R.id.tasksListView);
 
-        myAdapter = new MyAdapter(getActivity(),pendingTasks);
+        myAdapter = new MyAdapter(getActivity(),DataManager.pendingTasks);
         tasksListview.setAdapter(myAdapter);
-      /*  FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.newTaskFAB);
+      FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.newTaskFAB);
         fab.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -75,7 +74,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
                     }
                 }, 5000); return true;
             }
-        }); */
+        });
 
     }
 
@@ -93,7 +92,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
       }
     }
     public static void newTask(StringPair sp){
-        pendingTasks.add(sp);
+        DataManager.pendingTasks.add(sp);
         myAdapter.notifyDataSetChanged();
     }
 

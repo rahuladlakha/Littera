@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /*
  * A simple {@link Fragment} subclass.
@@ -53,6 +55,11 @@ public class FlashcardsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        List<Flashcard> list = Flashcard.getPendingCards();
+        if (list != null)
+        for (Flashcard card : list){
+            Toast.makeText(getActivity(), card.front + card.back, Toast.LENGTH_SHORT).show();
+        }
         if ( arr == null) arr = new ArrayList<StringPair>();
         listView = (ListView) getActivity().findViewById(R.id.flashcardsListview);
         arr.add(new StringPair("English", "4"));

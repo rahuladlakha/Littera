@@ -14,13 +14,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class NewFlashcardActivity extends AppCompatActivity {
+    EditText frontEdittext;
+    EditText backEdittext;
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_flashcard);
         if (getSupportActionBar() != null) getSupportActionBar().hide();
-        Spinner spinner = (Spinner) findViewById(R.id.subjectSpinner);
+        frontEdittext = findViewById(R.id.frontEdittext);
+        backEdittext = findViewById(R.id.backedittext);
+        spinner = (Spinner) findViewById(R.id.subjectSpinner);
         String[] subjects = {"English", "Biology", "New Cardgroup"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, subjects);
         spinner.setAdapter(adapter);
@@ -49,5 +54,14 @@ public class NewFlashcardActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        String front = frontEdittext.getText().toString() ;
+        String back =  backEdittext.getText().toString() ;
+        if (front.trim().isEmpty()){ super.onBackPressed(); return; }
+        new Flashcard(front ,back, spinner.getSelectedItem().toString());
+        super.onBackPressed();
     }
 }

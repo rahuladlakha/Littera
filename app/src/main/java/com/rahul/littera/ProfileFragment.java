@@ -86,7 +86,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         }
 
         @Override
-        protected void onPostExecute(Bitmap image) {
+        protected void onPostExecute(Bitmap image){
             if (image != null)
             userImageView.setImageBitmap(image);
             super.onPostExecute(image);
