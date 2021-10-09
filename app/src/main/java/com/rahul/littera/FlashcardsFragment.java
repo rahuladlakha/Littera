@@ -18,7 +18,9 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.net.Inet4Address;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /*
@@ -28,7 +30,11 @@ import java.util.List;
  */
 public class FlashcardsFragment extends Fragment {
     private static FlashcardsFragment instance;
-    private static ArrayList<StringPair> arr ;
+    private static ArrayList<String> subjects ;
+    private static HashMap<String ,ArrayList<Integer>> numCards;  //numCards map subject to number of pending cards for that subject
+    public static ArrayList<Flashcard> pendingcards;   //pendingcards contain the pending cards for this time
+                                                       //and will be used in next activity to get cards for each subject
+
     private static ListView listView;
     private static MyAdapter adapter;
     public static FlashcardsFragment getInstance(){
@@ -55,16 +61,22 @@ public class FlashcardsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<Flashcard> list = Flashcard.getPendingCards();
-        if (list != null)
-        for (Flashcard card : list){
-            Toast.makeText(getActivity(), card.front + card.back, Toast.LENGTH_SHORT).show();
-        }
-        if ( arr == null) arr = new ArrayList<StringPair>();
+        pendingcards = (ArrayList<Flashcard>) Flashcard.getPendingCards();
+        if ( subjects == null) subjects = new ArrayList<String>();
+        if (numCards == null) numCards = new HashMap<String, ArrayList<Integer>>();
+
+        // populating arr with subject names and pending cards in each subject
+       for ( String sp : Data.getInstance().cardgroups) {
+           subjects.add(sp);
+           numCards.put(sp,new ArrayList<Integer>());
+       }
+       for (int i = 0; i < pendingcards.size(); i++){
+           Flashcard currCard = pendingcards.get(i);
+           numCards.get(currCard.cardgrp).add(i);
+       }
+
         listView = (ListView) getActivity().findViewById(R.id.flashcardsListview);
-        arr.add(new StringPair("English", "4"));
-        arr.add(new StringPair("Biology","7"));
-        adapter = new MyAdapter(getActivity(), arr);
+        adapter = new MyAdapter(getActivity());
         listView.setAdapter(adapter);
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.newFlashcardFAB);
         fab.setOnLongClickListener(new View.OnLongClickListener() {
@@ -84,16 +96,14 @@ public class FlashcardsFragment extends Fragment {
 
     class MyAdapter extends ArrayAdapter<String> {
         Context context;
-        ArrayList<StringPair> arr;
-        public MyAdapter(Context c, ArrayList<StringPair> arr){
+        public MyAdapter(Context c){
             super(c,R.layout.subjects_view,R.id.subjectTextview);
             this.context = c;
-            this.arr = arr;
         }
 
         @Override
         public int getCount() {
-            return arr.size();
+            return pendingcards.size();
         }
 
         @NonNull
@@ -103,8 +113,8 @@ public class FlashcardsFragment extends Fragment {
             View v = layoutInflater.inflate(R.layout.subjects_view,parent,false);
             TextView txt = (TextView) v.findViewById(R.id.subjectTextview);
             TextView des = (TextView) v.findViewById(R.id.pendingCardsTextview);
-            txt.setText(arr.get(position).s1);
-            des.setText(arr.get(position).s2);
+            txt.setText(subjects.get(position));
+            des.setText(Integer.toString(numCards.get(subjects.get(position)).size()));
             //  v.setTag(currTag);
             //  currTag++;
             return v;
