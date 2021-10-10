@@ -33,7 +33,7 @@ public class FirstActivity extends AppCompatActivity {
     private static Bitmap userImageBitmap;
    private static URL imageUrl;
    private static FirebaseUser currUser;
-   private static FirstActivity instance;
+   public static FirstActivity instance;
    public static void signout(){
        FirebaseAuth.getInstance().signOut();
        instance.getSignInInfo();
@@ -65,7 +65,7 @@ public class FirstActivity extends AppCompatActivity {
         setContentView(R.layout.activity_first);
         instance = this;
         sharedPreferences = this.getSharedPreferences("com.rahul.littera", Context.MODE_PRIVATE);
-         boolean result = DataManager.getInstance().retrieveSaved(sharedPreferences);
+         boolean result = DataManager.getInstance().retrieveSaved();
          Log.i("Retrieval result", Boolean.toString(result));
         ActionBar actionBar = getSupportActionBar();
                 if (actionBar != null ){

@@ -48,7 +48,7 @@ public class NewFlashcardActivity extends AppCompatActivity {
                                         Data.getInstance().cardgroups.add(0,sub);
                                         adapter.notifyDataSetChanged();
                                         spinner.setSelection(0);
-                                        DataManager.getInstance().save(FirstActivity.sharedPreferences);
+                                        DataManager.getInstance().save();
                                     }
                                 }
                             }).show();
@@ -80,7 +80,7 @@ public class NewFlashcardActivity extends AppCompatActivity {
                                 Data.getInstance().cardgroups.add(0,sub);
                                 adapter.notifyDataSetChanged();
                                 spinner.setSelection(0);
-                                DataManager.getInstance().save(FirstActivity.sharedPreferences);
+                                DataManager.getInstance().save();
                             }
                         }
                     }).show();

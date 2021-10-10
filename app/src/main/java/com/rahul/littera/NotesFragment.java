@@ -2,20 +2,25 @@ package com.rahul.littera;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -61,12 +66,47 @@ public class NotesFragment extends Fragment {
 
         myAdapter = new MyAdapter(getActivity(),Data.getInstance().notes);
         notesListview.setAdapter(myAdapter);
+        notesListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(FirstActivity.instance, AddNoteTaskActivity.class);
+                intent.putExtra("initiated from","notesFragment");
+                intent.putExtra("note index", i);
+                startActivity(intent);
+            }
+        });
+       notesListview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int index = i;
+                new AlertDialog.Builder(FirstActivity.instance)
+                        .setIcon(android.R.drawable.ic_menu_delete)
+                        .setTitle("Do you want to delete this note ?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Data.getInstance().notes.remove(index);
+                                myAdapter.notifyDataSetChanged();
+                                DataManager.getInstance().save();
+                                Toast.makeText(FirstActivity.instance, "Note successfully deleted !", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // Do nothing
+                            }
+                        }).show();
+                return  true;
+            }
+
+        });
 
     }
     public static void newNote(StringPair sp){
         Data.getInstance().notes.add(sp);
         myAdapter.notifyDataSetChanged();
-        DataManager.getInstance().save(FirstActivity.sharedPreferences);
+        DataManager.getInstance().save();
     }
 
     class MyAdapter extends ArrayAdapter<String> {

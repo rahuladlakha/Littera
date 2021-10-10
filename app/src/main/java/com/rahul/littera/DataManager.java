@@ -23,7 +23,7 @@ public class DataManager {
    private DataManager(){
         //so that new instance cant be created outside the class
    }
-    public boolean save(SharedPreferences sp){
+    public boolean save(){
         try {
             SaveData task = new SaveData();
             return task.execute(FirstActivity.sharedPreferences).get();
@@ -36,7 +36,7 @@ public class DataManager {
     public void sync(){
 
     }
-    public boolean retrieveSaved(SharedPreferences sp){
+    public boolean retrieveSaved(){
         try {
             RetrieveData task = new RetrieveData();
             return task.execute(FirstActivity.sharedPreferences).get();
