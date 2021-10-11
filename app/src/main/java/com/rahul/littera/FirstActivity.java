@@ -157,7 +157,6 @@ public class FirstActivity extends AppCompatActivity {
 
     }
 
-
     private void setFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainerView, fragment)

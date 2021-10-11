@@ -98,7 +98,7 @@ public class FlashcardsFragment extends Fragment {
                     return;
                 }
                 Intent intent = new Intent(FirstActivity.instance, FlashcardActivity.class);
-                intent.putExtra("subject index", i);
+                intent.putIntegerArrayListExtra("indices", numCards.get(subjects.get(i)));
                 startActivity(intent);
             }
         });
@@ -115,6 +115,10 @@ public class FlashcardsFragment extends Fragment {
                 }, 5000); return true;
             }
         });
+
+    }
+
+    public void refresh(){
 
     }
 

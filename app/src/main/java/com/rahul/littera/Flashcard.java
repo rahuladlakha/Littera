@@ -7,14 +7,19 @@ import java.util.Date;
 import java.util.List;
 
 public class Flashcard implements Comparable<Flashcard>, Serializable {
-    private int fab1, fab2;
+    private int fib1, fib2;
     public String front, back , cardgrp;
     private Date nextDate;
+
+    public static final int EASY = 1178;
+    public static final int MEDIUM = 1179;
+    public static final int HARD = 1180;
+
 
     public static long msInADay = 24*60*60*1000;
     public Flashcard(String front, String back, String cdgp){
         this.front = front; this.back = back; this.nextDate = new Date(); this.cardgrp = cdgp;
-        this.fab1 = 0; fab2 = 1;
+        this.fib1 = 0; fib2 = 1;
         Data.getInstance().flashcards.add(this);
         DataManager.getInstance().save();
     }
@@ -30,6 +35,23 @@ public class Flashcard implements Comparable<Flashcard>, Serializable {
         }
         return cards;
     }
+    public int rateCard(int rating){ int fibonacci = (this.fib1 + this.fib2);
+        if (fibonacci <= 2) fibonacci = 2;
+        if (rating == EASY){
+          // no change in fibonacci
+        } else if (rating == MEDIUM){
+          fibonacci = (fibonacci*3)/4;
+        } else if ( rating == HARD ){
+            fibonacci /= 3;
+            if ( fib2 > fib1 ) {
+               fib2 = fib1;
+            }
+        }
+        this.nextDate = new Date(this.nextDate.getTime() + fibonacci*msInADay);
+        this.fib1 = this.fib2;this.fib2 = fibonacci;
+        return fibonacci;
+    }
+
     @Override
     public int compareTo(Flashcard flashcard) {
         if (this.nextDate.after(flashcard.nextDate)) return 1;

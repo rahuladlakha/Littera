@@ -10,6 +10,7 @@
     <color name="grey">#FF808080</color>
     <color name="partially_transparent">#CCFFFFFF</color>
     <color name="sky_blue">#009AEE</color>
-    <color name="green">#2BF407</color>
+    <color name="green">#29C80D</color>
     <color name="red">#F84646</color>
+    <color name="yellow">#FFC107</color>
 </resources>
