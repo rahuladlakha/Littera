@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -65,8 +66,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         nameTextView.setText("  "+ info[0]);
         emailTextView.setText("  " + info[1]);
         userImageView = (ImageView) getActivity().findViewById(R.id.profileImageView);
-       GetImageTask task = new GetImageTask();
-       task.execute(userImageView);
+        if ( Data.getInstance().userImage == null) {
+            GetImageTask task = new GetImageTask();
+            task.execute(userImageView);
+        } else {
+            byte[] byteArray = Data.getInstance().userImage;
+           Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0,byteArray.length );
+           userImageView.setImageBitmap(bitmap); }//this way user won't have to download same image again and again from web
         getActivity().findViewById(R.id.logoutOptionTextView).setOnClickListener(this);
     }
 
@@ -87,9 +93,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         @Override
         protected void onPostExecute(Bitmap image){
-            if (image != null)
-            userImageView.setImageBitmap(image);
-            super.onPostExecute(image);
+            if (image != null) {
+                userImageView.setImageBitmap(image);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                Data.getInstance().userImage = bos.toByteArray();// so that next time user wont need to download the same image
+                DataManager.getInstance().save();
+                super.onPostExecute(image);
+            }
         }
     }
 }

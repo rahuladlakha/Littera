@@ -11,4 +11,5 @@
     <color name="partially_transparent">#CCFFFFFF</color>
     <color name="sky_blue">#009AEE</color>
     <color name="green">#2BF407</color>
+    <color name="red">#F84646</color>
 </resources>

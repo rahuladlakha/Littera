@@ -1,6 +1,7 @@
 package com.rahul.littera;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.net.Inet4Address;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,11 +65,12 @@ public class FlashcardsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         pendingcards = (ArrayList<Flashcard>) Flashcard.getPendingCards();
-        if ( subjects == null) subjects = new ArrayList<String>();
-        if (numCards == null) numCards = new HashMap<String, ArrayList<Integer>>();
+        subjects = new ArrayList<String>();
+        numCards = new HashMap<String, ArrayList<Integer>>();
 
         // populating arr with subject names and pending cards in each subject
        for ( String sp : Data.getInstance().cardgroups) {
+           if (sp.equals("New Cardgroup")) continue;
            subjects.add(sp);
            numCards.put(sp,new ArrayList<Integer>());
        }
@@ -74,10 +78,30 @@ public class FlashcardsFragment extends Fragment {
            Flashcard currCard = pendingcards.get(i);
            numCards.get(currCard.cardgrp).add(i);
        }
+       subjects.sort(new Comparator<String>() {
+           @Override
+           public int compare(String s, String t1) {
+               if (numCards.get(s).size() > numCards.get(t1).size()) return -1;
+               else if (numCards.get(s).size() < numCards.get(t1).size()) return +1;
+               else return 0;
+           }
+       });
 
         listView = (ListView) getActivity().findViewById(R.id.flashcardsListview);
         adapter = new MyAdapter(getActivity());
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (numCards.get(subjects.get(i)).size() == 0) {
+                    Toast.makeText(FirstActivity.instance, "No pending cards to review in this deck :)", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent intent = new Intent(FirstActivity.instance, FlashcardActivity.class);
+                intent.putExtra("subject index", i);
+                startActivity(intent);
+            }
+        });
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.newFlashcardFAB);
         fab.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -103,7 +127,7 @@ public class FlashcardsFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return pendingcards.size();
+            return subjects.size();
         }
 
         @NonNull
@@ -114,7 +138,10 @@ public class FlashcardsFragment extends Fragment {
             TextView txt = (TextView) v.findViewById(R.id.subjectTextview);
             TextView des = (TextView) v.findViewById(R.id.pendingCardsTextview);
             txt.setText(subjects.get(position));
-            des.setText(Integer.toString(numCards.get(subjects.get(position)).size()));
+            int cardCount = numCards.get(subjects.get(position)).size();
+            if (cardCount != 0 )
+            des.setText(Integer.toString(cardCount));
+            else des.setVisibility(View.INVISIBLE);
             //  v.setTag(currTag);
             //  currTag++;
             return v;

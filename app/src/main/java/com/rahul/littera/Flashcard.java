@@ -25,8 +25,8 @@ public class Flashcard implements Comparable<Flashcard>, Serializable {
         Flashcard c;
         for ( int i = 0;i < Data.getInstance().flashcards.size() && (c = Data.getInstance().flashcards.get(i)).nextDate.before(curr);i++ ){
             cards.add(c);
-            c.nextDate = new Date(c.nextDate.getTime() + (c.fab1 + c.fab2)*msInADay);
-            int tmp = c.fab1; c.fab1 = c.fab2;c.fab2 = tmp + c.fab2;
+           // c.nextDate = new Date(c.nextDate.getTime() + (c.fab1 + c.fab2)*msInADay);
+           // int tmp = c.fab1; c.fab1 = c.fab2;c.fab2 = tmp + c.fab2;
         }
         return cards;
     }

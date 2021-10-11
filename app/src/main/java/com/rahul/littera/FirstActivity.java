@@ -20,9 +20,11 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.api.LabelProto;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -42,8 +44,7 @@ public class FirstActivity extends AppCompatActivity {
     public static Bitmap getUserImage(ImageView imgView) {
         if (imageUrl == null) return null;
         Bitmap bitmap = null;
-        GetImageTask task = new GetImageTask();
-        try { //bitmap = task.execute(imageUrl).get();
+        try {
             URL url = imageUrl;
             HttpURLConnection http = null;
                 http = (HttpURLConnection) url.openConnection();
@@ -67,12 +68,14 @@ public class FirstActivity extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences("com.rahul.littera", Context.MODE_PRIVATE);
          boolean result = DataManager.getInstance().retrieveSaved();
          Log.i("Retrieval result", Boolean.toString(result));
-        ActionBar actionBar = getSupportActionBar();
+       /*
+       ActionBar actionBar = getSupportActionBar();
                 if (actionBar != null ){
                     actionBar.setIcon(R.drawable.ic_notes);
                     actionBar.setHomeButtonEnabled(true);
                     actionBar.setTitle("Litera");
                 }
+        */
         getSignInInfo();
         BottomNavigationView btm = (BottomNavigationView) findViewById(R.id.botomNavigationView);
         btm.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -170,6 +173,7 @@ public class FirstActivity extends AppCompatActivity {
             }
         });
     }
+    /*
     static class GetImageTask extends AsyncTask<URL,Void , Bitmap> {
 
         @Override
@@ -180,4 +184,5 @@ public class FirstActivity extends AppCompatActivity {
 
 
     }
+    */
 }

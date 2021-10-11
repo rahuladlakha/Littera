@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Littera">
         <activity
+            android:name=".FlashcardActivity"
+            android:exported="true" />
+        <activity
             android:name=".NewFlashcardActivity"
             android:exported="true" />
         <activity
