@@ -84,7 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
                terms.setVerticalScrollBarEnabled(true);
 
                AlertDialog.Builder termsDialog = new AlertDialog.Builder(this);
-                       termsDialog.setIcon(android.R.drawable.ic_dialog_info)
+                       termsDialog.setIcon(R.drawable.ic_info_twotone)
                        .setTitle("Terms and Conditions")
                        .setView(terms)
                        .setPositiveButton("Agree", new DialogInterface.OnClickListener() {

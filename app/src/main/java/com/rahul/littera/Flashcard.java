@@ -1,5 +1,11 @@
 package com.rahul.littera;
 
+import android.content.DialogInterface;
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +28,51 @@ public class Flashcard implements Comparable<Flashcard>, Serializable {
         this.fib1 = 0; fib2 = 1;
         Data.getInstance().flashcards.add(this);
         DataManager.getInstance().save();
+    }
+    public static void removeCardGrp(String cardgroup){
+        ArrayList<Flashcard> cardsToBeRemoved = new ArrayList<>();
+        Log.i("Status","Delete cardgroup "+ cardgroup + " dialog shown");
+        for (int i = 0; i < Data.getInstance().flashcards.size(); i++ ){
+            if (Data.getInstance().flashcards.get(i).cardgrp.equals(cardgroup))
+                cardsToBeRemoved.add(Data.getInstance().flashcards.get(i));
+        }
+        int cardsNum = cardsToBeRemoved.size();
+        AlertDialog.Builder builder = new AlertDialog.Builder(FirstActivity.instance);
+        builder.setTitle("Are you sure ?")
+                .setIcon(R.drawable.ic_delete_twotone)
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if ( cardsNum > 0 ) {
+                            new AlertDialog.Builder(FirstActivity.instance)
+                                    .setIcon(R.drawable.ic_info_twotone)
+                                    .setTitle("Note carefully !" )
+                                    .setMessage("All cards associated with this deck will be deleted !")
+                                    .setNegativeButton("Cancel", null)
+                                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            for (Flashcard card : cardsToBeRemoved) {
+                                                Data.getInstance().flashcards.remove(card);
+                                            }
+                                            Data.getInstance().cardgroups.remove(cardgroup);
+                                            DataManager.getInstance().save();
+                                            FlashcardsFragment.getInstance().refresh();
+                                            Toast.makeText(FirstActivity.instance, "Deck deleted successfully !", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).show();
+                        } else {
+                            Data.getInstance().cardgroups.remove(cardgroup);
+                            DataManager.getInstance().save();
+                            FlashcardsFragment.getInstance().refresh();
+                            Toast.makeText(FirstActivity.instance, "Deck deleted successfully !", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", null );
+        if (cardsNum > 0) builder.setMessage("This deck has " + cardsNum + " cards associated with it. Do you really want to delete it ?");
+        else  builder.setMessage("Do you really want to delete this deck. It has no cards.");
+        builder.show();
     }
     public static ArrayList<Flashcard> getPendingCards(){
         ArrayList<Flashcard> cards = new ArrayList<>();

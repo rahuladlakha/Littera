@@ -80,7 +80,7 @@ public class NotesFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int index = i;
                 new AlertDialog.Builder(FirstActivity.instance)
-                        .setIcon(android.R.drawable.ic_menu_delete)
+                        .setIcon(R.drawable.ic_delete_twotone)
                         .setTitle("Do you want to delete this note ?")
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override

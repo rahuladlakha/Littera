@@ -83,6 +83,7 @@ public class NewFlashcardActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        FlashcardsFragment.getInstance().refresh();
         String tmp = (spinner.getSelectedItem() != null) ? spinner.getSelectedItem().toString() : null;
         if (tmp == null || tmp.equals("New Cardgroup")){
             View dialogedittextLayout = getLayoutInflater().inflate(R.layout.dialog_edit_text,null);

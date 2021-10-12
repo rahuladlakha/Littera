@@ -109,7 +109,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
                     return true;
                 } int index = i;
                 new AlertDialog.Builder(FirstActivity.instance)
-                        .setIcon(android.R.drawable.ic_menu_delete)
+                        .setIcon(R.drawable.ic_delete_twotone)
                         .setTitle("Do you want to delete this task ?")
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override

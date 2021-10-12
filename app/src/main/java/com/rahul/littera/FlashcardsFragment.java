@@ -2,12 +2,14 @@ package com.rahul.littera;
 
 import android.content.AsyncQueryHandler;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -135,6 +137,13 @@ public class FlashcardsFragment extends Fragment {
                     Intent intent = new Intent(FirstActivity.instance, FlashcardActivity.class);
                     intent.putIntegerArrayListExtra("indices", numCards.get(subjects.get(i)));
                     startActivity(intent);
+                }
+            });
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                   Flashcard.removeCardGrp(subjects.get(i));
+                   return true;
                 }
             });
 

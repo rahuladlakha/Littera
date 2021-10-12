@@ -72,6 +72,7 @@ public class FlashcardActivity extends AppCompatActivity {
         cardTextView.setText(currFlashcard.front);
         frontsideshown = true;
         doneFAB.setEnabled(false);
+        DataManager.getInstance().save();
     }
 
     public void onFABClick(View view ){
@@ -144,6 +145,7 @@ public class FlashcardActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         FlashcardsFragment.getInstance().refresh();
+        DataManager.getInstance().save();
         super.onBackPressed();
     }
 }
