@@ -164,6 +164,8 @@ public class FirstActivity extends AppCompatActivity {
     }
 
     public void startAnimations() {
+       /*
+       *Animation - settings option keeps rotating
         View v = findViewById(R.id.settingsItem);
         v.animate().rotationBy(9).setDuration(30).withEndAction(new Runnable() {
             @Override
@@ -171,6 +173,15 @@ public class FirstActivity extends AppCompatActivity {
                 v.animate().rotationBy(9).setDuration(30).withEndAction(this);
             }
         });
+
+        */
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+       if (item.getItemId() == R.id.logoutItem)
+           FirstActivity.signout();
+        return super.onOptionsItemSelected(item);
     }
     /*
     static class GetImageTask extends AsyncTask<URL,Void , Bitmap> {

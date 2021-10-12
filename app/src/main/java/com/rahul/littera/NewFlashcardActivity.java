@@ -36,7 +36,8 @@ public class NewFlashcardActivity extends AppCompatActivity {
                 Flashcard card = Data.getInstance().flashcards.get(index);
                 frontEdittext.setText(card.front);
                 backEdittext.setText(card.back);
-                spinner.setSelection(Data.getInstance().cardgroups.indexOf(card));
+                spinner.setSelection(Data.getInstance().cardgroups.indexOf(card.cardgrp));
+
             }
         }
     }
@@ -116,9 +117,9 @@ public class NewFlashcardActivity extends AppCompatActivity {
                     Toast.makeText(this, "You can't change cardgroup while editing a previous card.", Toast.LENGTH_SHORT).show();
                 DataManager.getInstance().save();
             } else {
-                new Flashcard(front, back, spinner.getSelectedItem().toString());
+                Flashcard newCard =  new Flashcard(front, back, spinner.getSelectedItem().toString());
             }
-
+            FlashcardsFragment.getInstance().refresh();
             super.onBackPressed();
         }
     }

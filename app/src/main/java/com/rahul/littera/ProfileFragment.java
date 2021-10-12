@@ -60,6 +60,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getActivity().findViewById(R.id.settingsOptionTextView).setVisibility(View.GONE);
+
         nameTextView = (TextView) getActivity().findViewById(R.id.nameTextView);
         emailTextView = (TextView) getActivity().findViewById(R.id.emailTextView);
         String[] info = FirstActivity.getUserInfo();

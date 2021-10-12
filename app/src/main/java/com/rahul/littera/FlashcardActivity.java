@@ -1,5 +1,7 @@
 package com.rahul.littera;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +17,10 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class FlashcardActivity extends AppCompatActivity {
     TextView cardTextView = null;
@@ -22,6 +28,7 @@ public class FlashcardActivity extends AppCompatActivity {
     Flashcard currFlashcard;
     FloatingActionButton doneFAB;
     private AlertDialog doneDialog;
+    private Queue<Flashcard> flashcardQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +38,13 @@ public class FlashcardActivity extends AppCompatActivity {
         doneFAB = (FloatingActionButton) findViewById(R.id.doneFashcardFAB);
         doneFAB.setEnabled(false);
         ArrayList<Integer> indices = getIntent().getIntegerArrayListExtra("indices");
-        if (indices == null) finish();
-        currFlashcard = FlashcardsFragment.pendingcards.get(indices.get(0));
+        flashcardQueue = new LinkedList<>();
+        for (int i = 0; i < indices.size(); i++){
+            flashcardQueue.add(FlashcardsFragment.pendingcards.get(indices.get(i)));
+        }
+
+        currFlashcard = flashcardQueue.remove();
+
         cardTextView = (TextView) findViewById(R.id.cardTextView);
         cardTextView.setMovementMethod(new ScrollingMovementMethod());
         cardTextView.setText(currFlashcard.front);
@@ -49,6 +61,17 @@ public class FlashcardActivity extends AppCompatActivity {
         }
         doneDialog.dismiss();
         Toast.makeText(this, "This flashcard will appear again after " + nextcard + " days !", Toast.LENGTH_SHORT).show();
+
+        if (!flashcardQueue.isEmpty())
+            currFlashcard = flashcardQueue.remove();
+        else {
+            FlashcardsFragment.getInstance().refresh();
+            finish();
+        }
+
+        cardTextView.setText(currFlashcard.front);
+        frontsideshown = true;
+        doneFAB.setEnabled(false);
     }
 
     public void onFABClick(View view ){
@@ -85,7 +108,18 @@ public class FlashcardActivity extends AppCompatActivity {
                             Data.getInstance().flashcards.remove(currFlashcard);
                             DataManager.getInstance().save();
                             Toast.makeText(FlashcardActivity.this, "Flashcard deleted !", Toast.LENGTH_SHORT).show();
-                            FlashcardActivity.this.finish();
+                            // refresh the activity to get new list of flashcards
+                            if (!flashcardQueue.isEmpty())
+                                currFlashcard = flashcardQueue.remove();
+                            else {
+                                FlashcardsFragment.getInstance().refresh();
+                                finish();
+                            }
+
+                            cardTextView.setText(currFlashcard.front);
+                            frontsideshown = true;
+                            doneFAB.setEnabled(false);
+
                         }
                     }).show();
         } else if (view.getId() == R.id.editFashcardFAB){
@@ -103,7 +137,13 @@ public class FlashcardActivity extends AppCompatActivity {
                     .setIcon(R.drawable.ic_notes)
                     .setView(dialogLayout);
                     doneDialog = builder.show();
+
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        FlashcardsFragment.getInstance().refresh();
+        super.onBackPressed();
+    }
 }

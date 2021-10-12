@@ -1,7 +1,9 @@
 package com.rahul.littera;
 
+import android.content.AsyncQueryHandler;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -39,7 +41,7 @@ public class FlashcardsFragment extends Fragment {
                                                        //and will be used in next activity to get cards for each subject
 
     private static ListView listView;
-    private static MyAdapter adapter;
+    public static MyAdapter adapter;
     public static FlashcardsFragment getInstance(){
         if (instance == null) instance = new FlashcardsFragment();
         return instance;
@@ -64,44 +66,8 @@ public class FlashcardsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        pendingcards = (ArrayList<Flashcard>) Flashcard.getPendingCards();
-        subjects = new ArrayList<String>();
-        numCards = new HashMap<String, ArrayList<Integer>>();
+        refresh();
 
-        // populating arr with subject names and pending cards in each subject
-       for ( String sp : Data.getInstance().cardgroups) {
-           if (sp.equals("New Cardgroup")) continue;
-           subjects.add(sp);
-           numCards.put(sp,new ArrayList<Integer>());
-       }
-       for (int i = 0; i < pendingcards.size(); i++){
-           Flashcard currCard = pendingcards.get(i);
-           numCards.get(currCard.cardgrp).add(i);
-       }
-       subjects.sort(new Comparator<String>() {
-           @Override
-           public int compare(String s, String t1) {
-               if (numCards.get(s).size() > numCards.get(t1).size()) return -1;
-               else if (numCards.get(s).size() < numCards.get(t1).size()) return +1;
-               else return 0;
-           }
-       });
-
-        listView = (ListView) getActivity().findViewById(R.id.flashcardsListview);
-        adapter = new MyAdapter(getActivity());
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (numCards.get(subjects.get(i)).size() == 0) {
-                    Toast.makeText(FirstActivity.instance, "No pending cards to review in this deck :)", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Intent intent = new Intent(FirstActivity.instance, FlashcardActivity.class);
-                intent.putIntegerArrayListExtra("indices", numCards.get(subjects.get(i)));
-                startActivity(intent);
-            }
-        });
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.newFlashcardFAB);
         fab.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -119,7 +85,61 @@ public class FlashcardsFragment extends Fragment {
     }
 
     public void refresh(){
+        RefreshView refreshView = new RefreshView();
+        refreshView.execute(); //Doing this on a separate thread will make sure that in case after creating a new activity
+                             // if the refresh function is taking time the user will atleast see the previous status of flashcardfragment thus making sure the screen wont appear blank while refreshing
+    }
 
+    class RefreshView extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            pendingcards = (ArrayList<Flashcard>) Flashcard.getPendingCards();
+            subjects = new ArrayList<String>();
+            numCards = new HashMap<String, ArrayList<Integer>>();
+
+            // populating arr with subject names and pending cards in each subject
+            for ( String sp : Data.getInstance().cardgroups) {
+                if (sp.equals("New Cardgroup")) continue;
+                subjects.add(sp);
+                numCards.put(sp,new ArrayList<Integer>());
+            }
+            for (int i = 0; i < pendingcards.size(); i++){
+                Flashcard currCard = pendingcards.get(i);
+                numCards.get(currCard.cardgrp).add(i);
+            }
+            subjects.sort(new Comparator<String>() {
+                @Override
+                public int compare(String s, String t1) {
+                    if (numCards.get(s).size() > numCards.get(t1).size()) return -1;
+                    else if (numCards.get(s).size() < numCards.get(t1).size()) return +1;
+                    else return 0;
+                }
+            });
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+
+            listView = (ListView) getActivity().findViewById(R.id.flashcardsListview);
+            adapter = new MyAdapter(getActivity());
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    if (numCards.get(subjects.get(i)).size() == 0) {
+                        Toast.makeText(FirstActivity.instance, "No pending cards to review in this deck :)", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Intent intent = new Intent(FirstActivity.instance, FlashcardActivity.class);
+                    intent.putIntegerArrayListExtra("indices", numCards.get(subjects.get(i)));
+                    startActivity(intent);
+                }
+            });
+
+            super.onPostExecute(unused);
+        }
     }
 
     class MyAdapter extends ArrayAdapter<String> {
