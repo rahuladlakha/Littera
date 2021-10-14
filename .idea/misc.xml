@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/drawable/bottom_navigation_view.xml" value="0.1" />
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/drawable/circular_textview.xml" value="0.1" />
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/drawable/edittext_layout.xml" value="0.1" />
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/drawable/ic_add_circle_outline_24.xml" value="0.1" />
@@ -30,6 +31,8 @@
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/layout/subjects_view.xml" value="0.14673913043478262" />
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/layout/tasksview.xml" value="0.15" />
         <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/menu/main_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/RAHUL/Projects/Android Studio/Littera/app/src/main/res/mipmap-anydpi-v26/ic_launcher_icon.xml" value="0.1" />
       </map>
     </option>
   </component>

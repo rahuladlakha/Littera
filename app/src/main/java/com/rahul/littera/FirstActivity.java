@@ -37,6 +37,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class FirstActivity extends AppCompatActivity {
+    // Attribution for unsplash pics
+    //Photo by <a href="https://unsplash.com/@lukechesser?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Luke Chesser</a> on <a href="https://unsplash.com/s/photos/color-gradient?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+    // (background on profile fragment )
+
+    //  Photo by <a href="https://unsplash.com/@tamanna_rumee?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Tamanna Rumee</a> on <a href="https://unsplash.com/s/photos/pencil?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+    //  Photo by <a href="https://unsplash.com/@tamanna_rumee?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Tamanna Rumee</a> on <a href="https://unsplash.com/s/photos/pencil?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+    // ( the two pencil images )
+
+    //  Dont forget to attribute the app icon designer also
+    // Attribution for app icon -
+    // <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+    // attributions to be given on description in the playstore and giving attribution is a must
+
     public String username, useremail, userId;
     public static SharedPreferences sharedPreferences;
     private static Bitmap userImageBitmap;
@@ -74,6 +87,7 @@ public class FirstActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
         instance = this;
+        //getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.grey));
        /*
        ActionBar actionBar = getSupportActionBar();
                 if (actionBar != null ){
