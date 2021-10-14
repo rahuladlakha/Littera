@@ -1,5 +1,7 @@
 package com.rahul.littera;
 
+import static com.rahul.littera.R.drawable.flashcard2;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -84,10 +86,12 @@ public class FlashcardActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (frontsideshown) {
+                                cardTextView.setBackground(getDrawable(R.drawable.flashcard));
                                 cardTextView.setText(currFlashcard.back);
                                 frontsideshown = false;
                                 doneFAB.setEnabled(true);
                             } else {
+                                cardTextView.setBackground(getDrawable(R.drawable.flashcard2));
                                 cardTextView.setText(currFlashcard.front);
                                 frontsideshown = true;
                             }

@@ -6,6 +6,16 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.UploadTask;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -33,9 +43,7 @@ public class DataManager {
             return  false;
         }
     }
-    public void sync(){
 
-    }
     public boolean retrieveSaved(){
         try {
             RetrieveData task = new RetrieveData();
@@ -46,9 +54,7 @@ public class DataManager {
             return  false;
         }
     }
-    public void retrieveSynced(){
 
-    }
 
     static class RetrieveData extends AsyncTask<SharedPreferences,Void ,Boolean> {
 
@@ -64,6 +70,27 @@ public class DataManager {
                 return true;
             } catch (Exception e ){
                 e.printStackTrace();
+                FirstActivity.storageReference.child("UserData").child(FirstActivity.instance.userId+".db")
+                        .getBytes(1024*1024*100) // set a maximum download size of 100 mb
+                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        try {
+                            ByteArrayInputStream bis = new ByteArrayInputStream(Base64.getDecoder().decode(bytes));
+                            ObjectInputStream in = new ObjectInputStream(bis);
+                            Data.instance = (Data) in.readObject();
+                            Log.i("got string",new String(Base64.getDecoder().decode(bytes)));
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                      Log.i("Retrieval sync","Unsuccessful");
+                      e.printStackTrace();
+                    }
+                });
                 return false;
             }
         }
@@ -80,7 +107,20 @@ public class DataManager {
                 out.writeObject(Data.getInstance());
                 String s = new String(Base64.getEncoder().encode(bos.toByteArray()));
                 sp.edit().putString("data",s).apply();
-                Log.i("save state","successful");
+
+                FirstActivity.storageReference.child("UserData").child(FirstActivity.instance.userId+".db").putBytes(Base64.getEncoder().encode(bos.toByteArray()))
+                        .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                Log.i("save state","successful");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
                 return true;
 
             } catch (Exception e){

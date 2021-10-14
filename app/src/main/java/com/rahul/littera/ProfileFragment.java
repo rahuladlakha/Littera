@@ -90,7 +90,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     class GetImageTask extends AsyncTask<ImageView,Void,Bitmap>{
         @Override
         protected Bitmap doInBackground(ImageView... imageViews) {
-            return FirstActivity.getUserImage(imageViews[0]);
+            return FirstActivity.getUserImage();
         }
 
         @Override

@@ -19,10 +19,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.api.LabelProto;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -30,18 +37,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class FirstActivity extends AppCompatActivity {
-    private String username, useremail, userId;
+    public String username, useremail, userId;
     public static SharedPreferences sharedPreferences;
     private static Bitmap userImageBitmap;
    private static URL imageUrl;
    private static FirebaseUser currUser;
    public static FirstActivity instance;
+   public static StorageReference storageReference;
+   public static DatabaseReference databaseReference;
    public static void signout(){
        FirebaseAuth.getInstance().signOut();
        instance.getSignInInfo();
    }
 
-    public static Bitmap getUserImage(ImageView imgView) {
+    public static Bitmap getUserImage() {
         if (imageUrl == null) return null;
         Bitmap bitmap = null;
         try {
@@ -65,9 +74,6 @@ public class FirstActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
         instance = this;
-        sharedPreferences = this.getSharedPreferences("com.rahul.littera", Context.MODE_PRIVATE);
-         boolean result = DataManager.getInstance().retrieveSaved();
-         Log.i("Retrieval result", Boolean.toString(result));
        /*
        ActionBar actionBar = getSupportActionBar();
                 if (actionBar != null ){
@@ -77,6 +83,16 @@ public class FirstActivity extends AppCompatActivity {
                 }
         */
         getSignInInfo();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.child(userId).child("Name").setValue(username);
+        databaseReference.child(userId).child("Email").setValue(useremail);
+        storageReference = FirebaseStorage.getInstance().getReference();
+
+        sharedPreferences = this.getSharedPreferences("com.rahul.littera", Context.MODE_PRIVATE);
+        boolean result = DataManager.getInstance().retrieveSaved();
+        Log.i("Retrieval result", Boolean.toString(result));
+
+        new UploadImageTask().execute();
         BottomNavigationView btm = (BottomNavigationView) findViewById(R.id.botomNavigationView);
         btm.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -107,6 +123,7 @@ public class FirstActivity extends AppCompatActivity {
         });
         */
     }
+
 
     private void getSignInInfo(){
       currUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -183,16 +200,31 @@ public class FirstActivity extends AppCompatActivity {
            FirstActivity.signout();
         return super.onOptionsItemSelected(item);
     }
-    /*
-    static class GetImageTask extends AsyncTask<URL,Void , Bitmap> {
+
+    static class UploadImageTask extends AsyncTask<Void,Void ,Void> {
 
         @Override
-        protected Bitmap doInBackground(URL... urls) {
-
+        protected Void doInBackground(Void... voids) {
+            Bitmap bitmap = getUserImage();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            byte[] arr = bos.toByteArray();
+            UploadTask task = storageReference.child("UserImages").child(instance.userId+".jpg").putBytes(arr);
+            task.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.i("Upload","UserImage upload failed reason: "+ e.toString());
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.i("Upload","UserImage uploaded successfully !");
+                }
+            });
             return null;
         }
 
 
     }
-    */
+
 }
