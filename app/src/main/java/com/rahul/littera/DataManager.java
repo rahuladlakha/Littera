@@ -50,7 +50,7 @@ public class DataManager {
             return task.execute(FirstActivity.sharedPreferences).get();
         } catch (Exception e){
             e.printStackTrace();
-            Log.i("save state", "Unsuccessful");
+            Log.i("Retrieval state", "Unsuccessful");
             return  false;
         }
     }
@@ -66,11 +66,11 @@ public class DataManager {
                 ByteArrayInputStream bis = new ByteArrayInputStream(Base64.getDecoder().decode(s.getBytes()));
                 ObjectInputStream in = new ObjectInputStream(bis);
                 Data.instance = (Data) in.readObject();
-                Log.i("retrieval","successful");
+                Log.i("retrieval","successful - local");
                 return true;
             } catch (Exception e ){
                 e.printStackTrace();
-                FirstActivity.storageReference.child("UserData").child(FirstActivity.instance.userId+".db")
+                FirstActivity.storageReference.child(FirstActivity.instance.userId+".db")
                         .getBytes(1024*1024*100) // set a maximum download size of 100 mb
                 .addOnSuccessListener(new OnSuccessListener<byte[]>() {
                     @Override
@@ -108,18 +108,20 @@ public class DataManager {
                 String s = new String(Base64.getEncoder().encode(bos.toByteArray()));
                 sp.edit().putString("data",s).apply();
 
-                FirstActivity.storageReference.child("UserData").child(FirstActivity.instance.userId+".db").putBytes(Base64.getEncoder().encode(bos.toByteArray()))
-                        .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                Log.i("save state","successful");
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
 
-                    }
-                });
+                    FirstActivity.storageReference.child(FirstActivity.instance.userId + ".db").putBytes(Base64.getEncoder().encode(bos.toByteArray()))
+                            .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                    Log.i("save state", "successful");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+
 
                 return true;
 

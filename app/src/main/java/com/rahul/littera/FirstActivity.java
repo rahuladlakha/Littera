@@ -96,17 +96,24 @@ public class FirstActivity extends AppCompatActivity {
                     actionBar.setTitle("Litera");
                 }
         */
-        getSignInInfo();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-        databaseReference.child(userId).child("Name").setValue(username);
-        databaseReference.child(userId).child("Email").setValue(useremail);
-        storageReference = FirebaseStorage.getInstance().getReference();
+        try {
+            getSignInInfo();
+           // Log.i("user id", userId);
+            sharedPreferences = this.getSharedPreferences("com.rahul.littera", Context.MODE_PRIVATE);
 
-        sharedPreferences = this.getSharedPreferences("com.rahul.littera", Context.MODE_PRIVATE);
-        boolean result = DataManager.getInstance().retrieveSaved();
-        Log.i("Retrieval result", Boolean.toString(result));
+            databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+            databaseReference.child(userId).child("Name").setValue(username);
+            databaseReference.child(userId).child("Email").setValue(useremail);
+            storageReference = FirebaseStorage.getInstance().getReference().child("UserData").child(userId);
 
-        new UploadImageTask().execute();
+            boolean result = DataManager.getInstance().retrieveSaved();
+            Log.i("Retrieval result", Boolean.toString(result));
+
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+            new UploadImageTask().execute();
         BottomNavigationView btm = (BottomNavigationView) findViewById(R.id.botomNavigationView);
         btm.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -219,22 +226,26 @@ public class FirstActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            Bitmap bitmap = getUserImage();
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-            byte[] arr = bos.toByteArray();
-            UploadTask task = storageReference.child("UserImages").child(instance.userId+".jpg").putBytes(arr);
-            task.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.i("Upload","UserImage upload failed reason: "+ e.toString());
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.i("Upload","UserImage uploaded successfully !");
-                }
-            });
+            try {
+                Bitmap bitmap = getUserImage();
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                byte[] arr = bos.toByteArray();
+                UploadTask task = storageReference.child(instance.userId + ".jpg").putBytes(arr);
+                task.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("Upload", "UserImage upload failed reason: " + e.toString());
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.i("Upload", "UserImage uploaded successfully !");
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
