@@ -82,7 +82,10 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
         tasksListview = (ListView) getView().findViewById(R.id.tasksListView);
         for (int i = 0; i < Data.getInstance().tasks.size(); i++ ){
              StringPair sp = Data.getInstance().tasks.get(i);
-             if (sp.taskCompleted && sp.taskDeletion.before(new Date())) Data.getInstance().tasks.remove(sp);
+             if (sp.taskCompleted && sp.taskDeletion.before(new Date())){
+                 Log.i("task deletion","task with tag"+ sp.taskTag + " to be deleted");
+                 Data.getInstance().tasks.remove(sp);
+             }
         }
         DataManager.getInstance().save();
 
@@ -177,6 +180,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
 
     public static void newTask(StringPair sp){
         sp.taskTag = ++Data.getInstance().taskTag;
+        Log.i("task", "task created with tag" + sp.taskTag);
         Data.getInstance().tasks.add(sp);
         myAdapter.notifyDataSetChanged();
         DataManager.getInstance().save();
@@ -209,6 +213,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
            rb.setTag(arr.get(position).taskTag);
            rb.setOnClickListener(TasksFragment.this);
            v.setTag(arr.get(position).taskTag);
+
 
             rb.setFocusable(false); // if there are any focusable or clickable items in your custom listview listviews onItemClickListener wont work
                                     // you need to manuually set focusable attribute to false on each clickable item to make OnItemClickListener active

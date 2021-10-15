@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class StringPair implements Serializable {
     public String s1, s2;
-
     //The below two fields are only for tasks
     boolean taskCompleted = false;
     public int taskTag;
@@ -13,5 +12,7 @@ public class StringPair implements Serializable {
     public StringPair(String s1, String s2){
         this.s1 = s1;
         this.s2 = s2;
+        this.taskTag = Data.getInstance().taskTag++;
+        DataManager.getInstance().save();
     }
 }
