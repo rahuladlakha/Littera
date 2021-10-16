@@ -90,6 +90,29 @@
             android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/termsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_info_twotone"
+            android:paddingTop="10sp"
+            android:paddingBottom="10sp"
+            android:text=" Terms and Conditions"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/privacyPolicyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_privacy_twotone"
+            android:paddingTop="10sp"
+            android:paddingBottom="10sp"
+            android:text=" Privacy Policy"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+
+        <TextView
             android:id="@+id/logoutOptionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

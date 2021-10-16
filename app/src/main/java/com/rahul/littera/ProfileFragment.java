@@ -3,6 +3,7 @@ package com.rahul.littera;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -73,10 +74,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             task.execute(userImageView);
         } else {
             byte[] byteArray = Data.getInstance().userImage;
-           Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0,byteArray.length );
-           userImageView.setImageBitmap(bitmap); }//this way user won't have to download same image again and again from web
+            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            userImageView.setImageBitmap(bitmap); //this way user won't have to download same image again and again from web
+        }
+
+        getActivity().findViewById(R.id.settingsOptionTextView).setOnClickListener(this);
+        getActivity().findViewById(R.id.termsTextView).setOnClickListener(this);
+        getActivity().findViewById(R.id.privacyPolicyTextView).setOnClickListener(this);
         getActivity().findViewById(R.id.logoutOptionTextView).setOnClickListener(this);
     }
+
 
     @Override
     public void onClick(View view) {
@@ -85,8 +92,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         } else if (id == R.id.logoutOptionTextView){
             FirstActivity.signout();
+        } else if (id == R.id.termsTextView){
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://termslitteraapp.blogspot.com/2021/10/terms-and-conditions-littera-mobile-app.html"));
+            startActivity(intent);
+        } else if ( id == R.id.privacyPolicyTextView){
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://termslitteraapp.blogspot.com/2021/10/privacy-policy-littera-mobile.html"));
+            startActivity(intent);
         }
     }
+
     class GetImageTask extends AsyncTask<ImageView,Void,Bitmap>{
         @Override
         protected Bitmap doInBackground(ImageView... imageViews) {
