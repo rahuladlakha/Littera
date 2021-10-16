@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CircularImageView">
+        <item name="cornerSize">50%</item>
+    </style>
+    <!-- add more styles to use in your app in the same file rather than creating multiple files  by just creating new
+    style instances here -->
+</resources>
