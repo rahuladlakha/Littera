@@ -91,7 +91,8 @@ public class Flashcard implements Comparable<Flashcard>, Serializable {
         if (rating == EASY){
           // no change in fibonacci
         } else if (rating == MEDIUM){
-          fibonacci = (fibonacci*3)/4;
+            if (!(fib1 > 0 && fibonacci == 2 ))
+                fibonacci = (fibonacci*3)/4;
         } else if ( rating == HARD ){
             fibonacci /= 3;
             if ( fib2 > fib1 ) {

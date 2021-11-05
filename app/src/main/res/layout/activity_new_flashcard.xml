@@ -37,6 +37,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
@@ -55,11 +56,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:maxLines="20"
             android:background="@drawable/edittext_layout"
             android:ems="10"
             android:hint="Frontside"
             android:inputType="textMultiLine"
+            android:maxLines="20"
             android:padding="5dp"
             android:textAlignment="center" />
 
@@ -69,16 +70,28 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:maxLines="20"
             android:background="@drawable/edittext_layout"
             android:ems="10"
             android:hint="Backside"
             android:inputType="textMultiLine"
+            android:maxLines="20"
             android:padding="5dp"
             android:textAlignment="center" />
 
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/saveFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:onClick="saveFlashcard"
+        android:src="@drawable/ic_twotone_save"
+        app:layout_constraintBottom_toBottomOf="@+id/backgroundImg"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout2" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

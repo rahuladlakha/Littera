@@ -80,9 +80,7 @@ public class NewFlashcardActivity extends AppCompatActivity {
 
 
     }
-
-    @Override
-    public void onBackPressed() {
+    public void saveFlashcard(View view){
         FlashcardsFragment.getInstance().refresh();
         String tmp = (spinner.getSelectedItem() != null) ? spinner.getSelectedItem().toString() : null;
         if (tmp == null || tmp.equals("New Cardgroup")){
@@ -110,7 +108,7 @@ public class NewFlashcardActivity extends AppCompatActivity {
                 super.onBackPressed();
                 return;
             }
-            if (cardIndex >= 0){
+            if (cardIndex >= 0) {
                 Flashcard card = Data.getInstance().flashcards.get(cardIndex);
                 card.front = front;
                 card.back = back;
@@ -118,10 +116,38 @@ public class NewFlashcardActivity extends AppCompatActivity {
                     Toast.makeText(this, "You can't change cardgroup while editing a previous card.", Toast.LENGTH_SHORT).show();
                 DataManager.getInstance().save();
             } else {
-                Flashcard newCard =  new Flashcard(front, back, spinner.getSelectedItem().toString());
+                Flashcard newCard = new Flashcard(front, back, spinner.getSelectedItem().toString());
             }
             FlashcardsFragment.getInstance().refresh();
             super.onBackPressed();
         }
+
     }
+
+    @Override
+    public void onBackPressed() {
+        String front = frontEdittext.getText().toString();
+        String back = backEdittext.getText().toString();
+        if (front.trim().isEmpty())
+            super.onBackPressed();
+        else {
+            new AlertDialog.Builder(this).setTitle("Select an action")
+                    .setIcon(R.drawable.ic_info_twotone)
+                    .setMessage("Do you want to save your changes !")
+                    .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            saveFlashcard(null);
+                        }
+                    })
+                    .setNegativeButton("Discard", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            NewFlashcardActivity.super.onBackPressed();
+                        }
+                    }).show();
+        }
+
+    }
+
 }
