@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -22,6 +24,7 @@ public class AddNoteTaskActivity extends AppCompatActivity {
     EditText titleEditText ;
     EditText desEditText;
     TextView dateTextView = null, timeTextView = null;
+    Calendar alarmTime = Calendar.getInstance();
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,8 @@ public class AddNoteTaskActivity extends AppCompatActivity {
                 desEditText.setText(curr.s2);
             }
         } else if ((getIntent().getStringExtra("initiated from").equals("notesFragment"))) {
+            findViewById(R.id.alarmLinearLayout).setVisibility(View.GONE);
+            //dateTextView.setVisibility(View.GONE); timeTextView.setVisibility(View.GONE);
             int i = getIntent().getIntExtra("note index", -1);
             if (i != -1) {
                 StringPair curr = Data.getInstance().notes.get(i);
@@ -63,20 +68,30 @@ public class AddNoteTaskActivity extends AppCompatActivity {
     }
 
     private void showDateDialog(){
-        Calendar cal = Calendar.getInstance();
         new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                cal.set(Calendar.YEAR, i);
-                cal.set(Calendar.MONTH, i1);
-                cal.set(Calendar.DAY_OF_MONTH, i2);
+                alarmTime.set(Calendar.YEAR, i);
+                alarmTime.set(Calendar.MONTH, i1);
+                alarmTime.set(Calendar.DAY_OF_MONTH, i2);
                 SimpleDateFormat sd = new SimpleDateFormat("dd-MM-yyyy");
-                dateTextView.setText(" " + sd.format(cal.getTime()));
+                dateTextView.setText(" " + sd.format(alarmTime.getTime()));
+                showTimeDialog();
             }
-        }, cal.get(Calendar.YEAR),cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show();
+        }, alarmTime.get(Calendar.YEAR),alarmTime.get(Calendar.MONTH), alarmTime.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    private void showTimeDialog(){}
+    private void showTimeDialog(){
+        new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                alarmTime.set(Calendar.HOUR_OF_DAY, i);
+                alarmTime.set(Calendar.MINUTE, i1);
+                SimpleDateFormat sp = new SimpleDateFormat("hh:mm a", Locale.US);
+                timeTextView.setText(" " + sp.format(alarmTime.getTime()));
+            }
+        }, alarmTime.get(Calendar.HOUR_OF_DAY), alarmTime.get(Calendar.MINUTE), false).show();
+    }
 
     public void saveTaskNote(View view){
         String s1 = titleEditText.getText().toString(), s2 =  desEditText.getText().toString();

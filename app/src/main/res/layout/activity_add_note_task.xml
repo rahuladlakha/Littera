@@ -52,7 +52,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+        app:layout_constraintTop_toBottomOf="@+id/alarmLinearLayout" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/saveFAB"
@@ -66,7 +66,7 @@
         app:layout_constraintEnd_toEndOf="@+id/descriptionEditText" />
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
+        android:id="@+id/alarmLinearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -84,7 +84,7 @@
             android:layout_weight="1"
             android:layout_marginRight="10dp"
             android:drawableStart="@drawable/ic_calendar"
-            android:text="Select Date"
+            android:text=" Select Date"
             android:textSize="20sp" />
 
         <TextView
@@ -94,7 +94,7 @@
             android:layout_marginLeft="10dp"
             android:drawableStart="@drawable/ic_alarm"
             android:layout_weight="1"
-            android:text="Select Time"
+            android:text=" Select Time"
             android:textSize="20sp" />
     </LinearLayout>
 
