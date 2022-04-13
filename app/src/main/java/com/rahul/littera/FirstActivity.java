@@ -58,10 +58,6 @@ public class FirstActivity extends AppCompatActivity {
    public static FirstActivity instance;
    public static StorageReference storageReference;
    public static DatabaseReference databaseReference;
-   public static void signout(){
-       FirebaseAuth.getInstance().signOut();
-       instance.getSignInInfo();
-   }
 
     public static Bitmap getUserImage() {
         if (imageUrl == null) return null;
@@ -217,8 +213,11 @@ public class FirstActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-       if (item.getItemId() == R.id.logoutItem)
-           FirstActivity.signout();
+       if (item.getItemId() == R.id.logoutItem) {
+           SignUpActivity.signout();
+           Intent intent = new Intent(this, SignUpActivity.class);
+           startActivity(intent);
+       }
         return super.onOptionsItemSelected(item);
     }
 

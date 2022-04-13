@@ -91,7 +91,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         if ( id == R.id.settingsOptionTextView){
 
         } else if (id == R.id.logoutOptionTextView){
-            FirstActivity.signout();
+            SignUpActivity.signout();
+            Intent intent = new Intent(getContext(), SignUpActivity.class);
+            startActivity(intent);
         } else if (id == R.id.termsTextView){
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("https://termslitteraapp.blogspot.com/2021/10/terms-and-conditions-littera-mobile-app.html"));

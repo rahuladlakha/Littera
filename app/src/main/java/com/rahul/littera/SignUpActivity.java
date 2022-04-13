@@ -34,7 +34,13 @@ import com.google.firebase.auth.GoogleAuthProvider;
 public class SignUpActivity extends AppCompatActivity {
     View signInButton = null;
 
-    private FirebaseAuth mAuth;
+    private static FirebaseAuth mAuth;
+    private static GoogleSignInClient mGoogleSignInClient;
+
+    public static void signout(){
+        mAuth.signOut();
+        mGoogleSignInClient.signOut();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,7 +182,7 @@ public class SignUpActivity extends AppCompatActivity {
                 .requestIdToken("819501200298-iluiitkjeg3b9ti4j8o1q1d4p67aa2cr.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(SignUpActivity.this, gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(SignUpActivity.this, gso);
 
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent,1);
