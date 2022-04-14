@@ -4,9 +4,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -67,6 +71,21 @@ public class AddNoteTaskActivity extends AppCompatActivity {
         }
     }
 
+    private void cancelAlarm(){
+        Intent intent = new Intent(this, AlarmBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0, intent, 0);
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        am.cancel(pendingIntent);
+        Toast.makeText(this, "Alarm cancelled successfully", Toast.LENGTH_LONG).show();
+    }
+    private void setAlarm(){
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0, intent, 0);
+        am.setExact(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(),  pendingIntent);
+        Toast.makeText(this, "Alarm set successfully", Toast.LENGTH_LONG).show();
+    }
+
     private void showDateDialog(){
         new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -74,7 +93,7 @@ public class AddNoteTaskActivity extends AppCompatActivity {
                 alarmTime.set(Calendar.YEAR, i);
                 alarmTime.set(Calendar.MONTH, i1);
                 alarmTime.set(Calendar.DAY_OF_MONTH, i2);
-                SimpleDateFormat sd = new SimpleDateFormat("dd-MM-yyyy");
+                SimpleDateFormat sd = new SimpleDateFormat("dd MMMM, yyyy");
                 dateTextView.setText(" " + sd.format(alarmTime.getTime()));
                 showTimeDialog();
             }
@@ -103,13 +122,14 @@ public class AddNoteTaskActivity extends AppCompatActivity {
             if (i != -1) {
                 Data.getInstance().tasks.remove(i);
             }
-            TasksFragment.newTask(new StringPair(s1,s2));
+            TasksFragment.newTask(new StringPair(s1,s2, alarmTime));
+            setAlarm();
         } else if ((getIntent().getStringExtra("initiated from").equals("notesFragment"))){
             int i = getIntent().getIntExtra("note index", -1);
             if (i != -1) {
                 Data.getInstance().notes.remove(i);
             }
-            NotesFragment.newNote(new StringPair(s1, s2));
+            NotesFragment.newNote(new StringPair(s1, s2, null));
         }
         super.onBackPressed();
 
