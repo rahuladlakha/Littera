@@ -47,6 +47,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+        googleSignIn();
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         if ( firebaseUser != null ){
             Intent intent = new Intent(this, FirstActivity.class);
@@ -63,7 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                googleSignIn(view);         // Due to some unknownn issue the onclick method for buttonn googleSignIn() was never called and thus am having to
+                googleSignIn();         // Due to some unknownn issue the onclick method for buttonn googleSignIn() was never called and thus am having to
                 // redirect the same method from this screen
             }
         });
@@ -175,7 +176,7 @@ public class SignUpActivity extends AppCompatActivity {
     instead of using this method here Ill get signin info directly in firstActivity
     */
 
-    public void googleSignIn(View view){
+    public void googleSignIn(){
        // Toast.makeText(this, "Button tapped", Toast.LENGTH_LONG).show();
         Log.i("Button", "SignIN button tapped");
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

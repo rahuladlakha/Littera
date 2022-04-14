@@ -3,14 +3,19 @@ package com.rahul.littera;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -77,13 +82,29 @@ public class FirstActivity extends AppCompatActivity {
        return new String[]{instance.username,instance.useremail, instance.userId};
     }
 
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("alarmNotificaton", "Task Alarm", importance);
+            channel.setDescription("Lets you receive task alarm notifications");
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
         instance = this;
-        //getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.grey));
+        createNotificationChannel(); // this step needs to be done only once but since its crucial to be able
+                   // to send notificatoins, do this in the first activity that opens to keep you safe.
+
+      //getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.grey));
        /*
        ActionBar actionBar = getSupportActionBar();
                 if (actionBar != null ){
