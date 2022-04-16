@@ -78,11 +78,15 @@ public class AddNoteTaskActivity extends AppCompatActivity {
         am.cancel(pendingIntent);
         Toast.makeText(this, "Alarm cancelled successfully", Toast.LENGTH_LONG).show();
     }
-    private void setAlarm(){
+    private void setAlarm(StringPair sp){
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmBroadcastReceiver.class);
+        intent.putExtra("task ID", alarmTime.getTimeInMillis());
+        intent.putExtra("title", sp.s1);
+        intent.putExtra("description", sp.s2);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0, intent, 0);
-        am.setExact(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(),  pendingIntent);
+        am.setAlarmClock(new AlarmManager.AlarmClockInfo(alarmTime.getTimeInMillis(), pendingIntent), pendingIntent);
+       // am.setExact(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(),  pendingIntent);
         Toast.makeText(this, "Alarm set successfully", Toast.LENGTH_LONG).show();
     }
 
@@ -122,8 +126,9 @@ public class AddNoteTaskActivity extends AppCompatActivity {
             if (i != -1) {
                 Data.getInstance().tasks.remove(i);
             }
-            TasksFragment.newTask(new StringPair(s1,s2, alarmTime));
-            setAlarm();
+            StringPair sp = new StringPair(s1,s2, alarmTime);
+            TasksFragment.newTask(sp);
+            setAlarm(sp);
         } else if ((getIntent().getStringExtra("initiated from").equals("notesFragment"))){
             int i = getIntent().getIntExtra("note index", -1);
             if (i != -1) {

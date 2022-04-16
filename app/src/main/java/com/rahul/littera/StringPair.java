@@ -8,7 +8,8 @@ public class StringPair implements Serializable {
     public String s1, s2;
     //The below two fields are only for tasks
     boolean taskCompleted = false;
-    Calendar alarmTime = null;
+    public long notificationID = -1 ;
+    public Calendar alarmTime = null;
     public int taskTag;
     public Date taskDeletion = null ; // this field will tell when should a task be deleted
     public StringPair(String s1, String s2, Calendar alarmTime){

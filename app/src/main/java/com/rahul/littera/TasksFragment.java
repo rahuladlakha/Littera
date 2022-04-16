@@ -183,6 +183,7 @@ public class TasksFragment extends Fragment implements View.OnClickListener {
         sp.taskTag = ++Data.getInstance().taskTag;
         Log.i("task", "task created with tag" + sp.taskTag);
         Data.getInstance().tasks.add(sp);
+        if (sp.alarmTime != null ) Data.getInstance().tasksmap.put(sp.alarmTime.getTimeInMillis(), sp);
         myAdapter.notifyDataSetChanged();
         DataManager.getInstance().save();
     }
