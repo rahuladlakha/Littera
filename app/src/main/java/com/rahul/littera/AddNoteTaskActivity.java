@@ -79,6 +79,7 @@ public class AddNoteTaskActivity extends AppCompatActivity {
         Toast.makeText(this, "Alarm cancelled successfully", Toast.LENGTH_LONG).show();
     }
     private void setAlarm(StringPair sp){
+        alarmTime.set(Calendar.SECOND, 0); //without setting it zero the alarm will not hit as soon as it hits the clock
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmBroadcastReceiver.class);
         intent.putExtra("task ID", alarmTime.getTimeInMillis());
